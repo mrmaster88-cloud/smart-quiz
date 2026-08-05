@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Smart Quiz</title>
+
+<style>
+
+body{
+    font-family:Arial;
+    background:#f1f5f9;
+    margin:0;
+    padding:20px;
+}
+
+.container{
+    max-width:700px;
+    margin:auto;
+    background:white;
+    border-radius:10px;
+    padding:20px;
+}
+
+h1{
+    text-align:center;
+}
+
+input,select,button{
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+}
+
+.option{
+    border:1px solid #cccccc;
+    padding:12px;
+    margin-top:10px;
+    cursor:pointer;
+    border-radius:8px;
+}
+
+.option:hover{
+    background:#e2e8f0;
+}
+
+button{
+    background:#2563eb;
+    color:white;
+    border:none;
+    border-radius:8px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div id="home">
+
+<h1>🦉 SMART QUIZ</h1>
+
+<input
+type="text"
+id="name"
+placeholder="Masukkan nama">
+
+<select id="year">
+
+<option>Tahun 1</option>
+<option>Tahun 2</option>
+<option>Tahun 3</option>
+<option>Tahun 4</option>
+<option>Tahun 5</option>
+<option>Tahun 6</option>
+
+</select>
+
+<select id="subject">
+
+<option>Bahasa Melayu</option>
+<option>Matematik</option>
+<option>Sains</option>
+<option>Bahasa Inggeris</option>
+
+</select>
+
+<button onclick="startQuiz()">
+MULA KUIZ
+</button>
+
+</div>
+
+<div id="quiz" style="display:none;">
+
+<h2 id="counter"></h2>
+
+<h3 id="question"></h3>
+
+<div id="answers"></div>
+
+</div>
+
+<div id="result" style="display:none;">
+
+<h2>Keputusan</h2>
+
+<h3 id="score"></h3>
+
+<button onclick="location.reload()">
+Main semula
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+const questions = [
+
+{
+question:"2 + 2 = ?",
+options:["2","3","4","5"],
+answer:2
+},
+
+{
+question:"5 + 3 = ?",
+options:["6","7","8","9"],
+answer:2
+},
+
+{
+question:"Apakah warna langit?",
+options:["Merah","Biru","Hitam","Hijau"],
+answer:1
+},
+
+{
+question:"Apple ialah sejenis?",
+options:["Haiwan","Buah","Pokok","Minuman"],
+answer:1
+}
+
+];
+
+let current = 0;
+let marks = 0;
+
+function startQuiz(){
+
+    const name =
+    document.getElementById("name").value;
+
+    if(name===""){
+
+        alert("Sila masukkan nama.");
+
+        return;
+    }
+
+    document.getElementById(
+        "home"
+    ).style.display="none";
+
+    document.getElementById(
+        "quiz"
+    ).style.display="block";
+
+    showQuestion();
+}
+
+function showQuestion(){
+
+    let q = questions[current];
+
+    document.getElementById(
+        "counter"
+    ).innerHTML =
+    "Soalan " +
+    (current+1);
+
+    document.getElementById(
+        "question"
+    ).innerHTML =
+    q.question;
+
+    let html="";
+
+    q.options.forEach((item,index)=>{
+
+        html +=
+        `<div class='option'
+        onclick='check(${index})'>
+        ${item}
+        </div>`;
+
+    });
+
+    document.getElementById(
+        "answers"
+    ).innerHTML=html;
+}
+
+function check(index){
+
+    if(index===questions[current].answer){
+
+        marks++;
+
+    }
+
+    current++;
+
+    if(current<questions.length){
+
+        showQuestion();
+
+    }
+    else{
+
+        finishQuiz();
+
+    }
+}
+
+function finishQuiz(){
+
+    document.getElementById(
+        "quiz"
+    ).style.display="none";
+
+    document.getElementById(
+        "result"
+    ).style.display="block";
+
+    document.getElementById(
+        "score"
+    ).innerHTML =
+    "Markah anda: " +
+    marks +
+    "/" +
+    questions.length;
+}
+
+</script>
+
+</body>
+</html>
